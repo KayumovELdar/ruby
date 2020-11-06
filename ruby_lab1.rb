@@ -6,8 +6,8 @@ class Route
   def initialize(start_station, finish_station) # начало и конец маршрута
     @start_station = start_station
     @finish_station = finish_station
-    @route = [@start_station + @finish_station]
-  
+    @route = [@start_station, @finish_station]
+
   end
 
 
@@ -21,7 +21,7 @@ class Route
   end
 
   def result
-    @route0.each { |train| return train.name }
+    @route.each { |train| return train.name }
   end
 end
 
@@ -161,7 +161,7 @@ class Station
     @stationTrains.each { |name| puts "Номер поезда- № #{name.number}. Тип поезда - #{name.mode}  ." }
   end
 end
-=begin
+
 train111=Train.new("111","грузовой",30)
 train112=Train.new("112","пасажирский",30)
 train113=Train.new("113","грузовой",30)
@@ -171,7 +171,7 @@ station222=Station.new("Станция 2")
 station333=Station.new("Станция 3")
 station444=Station.new("Станция 4")
 station555=Station.new("Станция 5")
-station666=Station.new("Станция 6") # ЧТО ДОЛЖНО БЫТЬ ТУТ ВМЕСТО ИМЕНИ ПОЕЗДА ???
+station666=Station.new("Станция 6")
 station111.staying_train(train111)
 station111.staying_train(train112)
 station111.staying_train(train113)
@@ -181,8 +181,7 @@ route1=Route.new(station111,station666)
 route1.intermediate_station(station333)
 route1.intermediate_station(station444)
 route1.delete_station(station333)
-train111.train_route(route1.route0)
+train111.train_route(route1.route)
 train111.train_up
 train111.train_up
 train111.train_down
-=end
