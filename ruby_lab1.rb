@@ -1,62 +1,77 @@
 class Route
 
 
-  attr_reader :route
+  attr_reader :route0
 # выводим всесь маршрут для прикрепления к поезду
   def initialize(start_station, finish_station) # начало и конец маршрута
+<<<<<<< HEAD
     @start_station = start_station
     @finish_station = finish_station
     @route = [@start_station, @finish_station]
 
+=======
+    @start_station = [start_station]
+    @finish_station = [finish_station]
+    @route0 = @start_station + @finish_station
+    @intermediate_station = []
+    @route0.each { |train| puts train.name_station }
+    puts " "
+>>>>>>> parent of c19bf99... коррекция кода
   end
 
 
-  def intermediate_station(name) # добавление станции
-    @route.insert(-2,name)
+  def intermediate_station(name_station) # добавление станции
+    @intermediate_station= @intermediate_station + [name_station]
+    @route0 = @start_station + @intermediate_station + @finish_station
+    @route0.each { |train| puts train.name_station }
+    puts " "
   end
 
 
-  def delete_station(name) # удаление станции
-    @route.delete(name)
+  def delete_station(name_station) # удаление станции
+    @intermediate_station = @intermediate_station - [name_station]
+    @route0 = @start_station + @intermediate_station + @finish_station
+    @route0.each { |train| puts train.name_station }
+    puts " "
   end
 
+<<<<<<< HEAD
   def result
     @route.each { |train| return train.name }
+=======
+  def conclusion
+    @route0.each { |train| puts train.name_station }
+    @route0.each { |train| return train.name_station }
+>>>>>>> parent of c19bf99... коррекция кода
   end
 end
 
 
 
 class Train
-
-
   attr_reader :number
-  attr_reader :mode
-
-
-  def initialize(number,mode,wagon) # номер тип транспорта число вагонов
+  attr_reader :type1
+  def initialize(number,type1,wagon) # номер тип транспорта число вагонов
     @number = number
-    @mode = mode
+    @type1 = type1
     @wagon = wagon
     @speed=0
-
+      puts ("Я РОДИЛСЯ")
   end
 
 
   def speed_change(num) #меняем скорость на любое значение, при отрицательном значение скорость 0
     @speed+= num
-
       if @speed < 0
         @speed=0
-      end
 
+      end
     puts @speed
     return @speed
   end
 
 
   def wagon_sum # повышаем число вагонов
-
     if @speed==0
       @wagon+=1
       puts @wagon
@@ -64,9 +79,7 @@ class Train
     else
       puts "Поезд на ходу!!! сбавьте скорость до 0!!!"
     end
-
   end
-
 
 
   def wagon_del #понижаем число вагонов
@@ -77,72 +90,52 @@ class Train
     else
       puts "Поезд на ходу!!! сбавьте скорость до 0!!!"
     end
-
   end
 
 
   def train_route (route)
     puts "Маршрут передан"# передаем данные о маршруте
-    @route=route
-    @number_station=0
-    @route.each { |x| puts " #{x.name}"}
-    puts "#{@route.length}"
+    @train_r=route
+    @n=0
+    @train_r.each { |xxx| puts " #{xxx.name_station}"}
+    puts "#{@train_r.length}"
   end
 
 
   def train_up #перемещение вперед НЕ УЧИТЫВАЛОСЬ ЧТО ЗНАЧЕНИЕ ПРИВЫСИТ ПОРОГ
-    if @number_station==(@route.length-1)
-      puts "дальше ехать вы не можете"
-    else
-      @number_station+=1
-      if @number_station==(@route.length-1)
-        puts "вы прибыли в начальную точку маршрута"
-        puts " "
-      end
+    @n+=1
+    puts "перемещение на станцию - #{@train_r[@n].name_station}"
+    puts " "
+    if @n>0
+      puts "предыдущая #{@train_r[@n-1].name_station}"
     end
-    return @route[@number_station].name
+      puts "текущая #{@train_r[@n].name_station}"
+    if (@n+1)<@train_r.length
+      puts "следующая #{@train_r[@n+1].name_station}"
+    end
+    puts " "
   end
-
 
   def train_down #перемещение назад
-    if @number_station==0
-      puts "назад ехать вы не можете"
-    else
-      @number_station-=1
-      if @number_station==0
-        puts "вы прибыли в начальную точку маршрута"
-        puts " "
-      end
+    @n-=1
+    puts "перемещение на станцию - #{@train_r[@n].name_station}"
+    puts " "
+    if @n>0
+      puts "предыдущая #{@train_r[@n-1].name_station}"
     end
-    return @route[@number_station].name
+    puts "текущая #{@train_r[@n].name_station}"
+    if @n<@train_r.length
+      puts "следующая #{@train_r[@n+1].name_station}"
+    end
+    puts " "
   end
-
-
-  def next_station
-
-		if (@number_station+1) < @route.length
-			return @route[@number_station+1].name
-		else
-			return "следующей станции нет!"
-		end
-	end
-
-
-  def previous_station
-
-		if (@number_station-1) >= 0
-			return @route[@number_station-1].name
-		else
-			return "предыдущей станции нет!"
-		end
-	end
 end
 
 
 class Station
-  attr_reader :name
+  attr_reader :name_station
   def initialize(name)
-    @name = name
+    @name_station = name
     @stationTrains = []
   end
 
@@ -158,7 +151,7 @@ class Station
 
 
   def result
-    @stationTrains.each { |name| puts "Номер поезда- № #{name.number}. Тип поезда - #{name.mode}  ." }
+    @stationTrains.each { |name| puts "Номер поезда- № #{name.number}. Тип поезда - #{name.type1}  ." }
   end
 end
 
